@@ -16,37 +16,37 @@ jobs:
       contents: write
 
     steps:
-    - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-    - name: Update repository values
-      run: |
-        TAG_VERSION=${GITHUB_REF#refs/tags/v}
-        files=$(grep -rl "PLACEHOLDER_VERSION" . --exclude-dir=.git --exclude-dir=target || true)
-        if [ -n "$files" ]; then
-          echo "$files" | xargs sed -i "s/PLACEHOLDER_VERSION/$TAG_VERSION/g"
-        fi
+      - name: Update repository values
+        run: |
+          TAG_VERSION=${GITHUB_REF#refs/tags/v}
+          files=$(grep -rl "PLACEHOLDER_VERSION" . --exclude-dir=.git --exclude-dir=target || true)
+          if [ -n "$files" ]; then
+            echo "$files" | xargs sed -i "s/PLACEHOLDER_VERSION/$TAG_VERSION/g"
+          fi
 
-    - name: Install build tools (mold, sccache)
-      run: |
-        sudo apt-get update
-        sudo apt-get install -y mold clang sccache
+      - name: Install build tools (mold, sccache)
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y mold clang sccache
 
-    - name: Build (Release Mode)
-      run: cargo build --release --verbose
+      - name: Build (Release Mode)
+        run: cargo build --release --verbose
 
-    - name: Package and Release
-      env:
-        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      run: |
-        RAW_BIN="tapes-x86_64-unknown-linux-gnu"
-        ARCHIVE_NAME="${RAW_BIN}-${{ github.ref_name }}"
-        
-        cp target/release/tapes "$RAW_BIN"
+      - name: Package and Release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          RAW_BIN="tapes-x86_64-unknown-linux-gnu"
+          ARCHIVE_NAME="${RAW_BIN}-${{ github.ref_name }}"
 
-        mkdir -p "$ARCHIVE_NAME"
-        cp target/release/tapes "$ARCHIVE_NAME/"
-        tar -czf "${ARCHIVE_NAME}.tgz" "$ARCHIVE_NAME"
+          cp target/release/tapes "$RAW_BIN"
 
-        gh release create ${{ github.ref_name }} "$RAW_BIN" "${ARCHIVE_NAME}.tgz" \
-          --title "Release ${{ github.ref_name }}" \
-          --generate-notes
+          mkdir -p "$ARCHIVE_NAME"
+          cp target/release/tapes "$ARCHIVE_NAME/"
+          tar -czf "${ARCHIVE_NAME}.tgz" "$ARCHIVE_NAME"
+
+          gh release create ${{ github.ref_name }} "$RAW_BIN" "${ARCHIVE_NAME}.tgz" \
+            --title "Release ${{ github.ref_name }}" \
+            --generate-notes

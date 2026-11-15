@@ -1,5 +1,5 @@
 name: SpellCheck
- 
+
 on:
   push:
     branches:
@@ -22,4 +22,3 @@ jobs:
 
       - name: typos-action
         uses: crate-ci/typos@v1.52.2
-
