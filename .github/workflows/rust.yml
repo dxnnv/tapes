@@ -20,7 +20,7 @@ jobs:
 
       - name: Update repository values
         run: |
-          TAG_VERSION=${GITHUB_REF#refs/tags/v}
+          TAG_VERSION=${GITHUB_REF_NAME#v}
           files=$(grep -rl "PLACEHOLDER_VERSION" . --exclude-dir=.git --exclude-dir=target || true)
           if [ -n "$files" ]; then
             echo "$files" | xargs sed -i "s/PLACEHOLDER_VERSION/$TAG_VERSION/g"
@@ -42,7 +42,7 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           RAW_BIN="tapes-x86_64-unknown-linux-gnu"
-          ARCHIVE_NAME="${RAW_BIN}-${{ github.ref_name }}"
+          ARCHIVE_NAME="${RAW_BIN}-${GITHUB_REF_NAME}"
 
           cp target/release/tapes "$RAW_BIN"
 
@@ -50,6 +50,6 @@ jobs:
           cp target/release/tapes "$ARCHIVE_NAME/"
           tar -czf "${ARCHIVE_NAME}.tgz" "$ARCHIVE_NAME"
 
-          gh release create ${{ github.ref_name }} "$RAW_BIN" "${ARCHIVE_NAME}.tgz" \
-            --title "Release ${{ github.ref_name }}" \
+          gh release create "$GITHUB_REF_NAME" "$RAW_BIN" "${ARCHIVE_NAME}.tgz" \
+            --title "Release $GITHUB_REF_NAME" \
             --generate-notes
