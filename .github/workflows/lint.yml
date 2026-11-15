@@ -5,8 +5,15 @@ on:
     branches:
       - main
     paths:
-      - 'src/**'
-      - '**.rs'
+      - "src/**"
+      - "**/*.rs"
+      - "**/Cargo.toml"
+      - "**/Cargo.lock"
+      - ".cargo/**"
+      - "rust-toolchain*"
+      - "rustfmt.toml"
+      - ".rustfmt.toml"
+      - ".github/workflows/lint.yml"
   pull_request:
 
 concurrency:
