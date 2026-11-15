@@ -50,5 +50,6 @@ jobs:
           tar -czf "${ARCHIVE_NAME}.tgz" "$ARCHIVE_NAME"
 
           gh release create "$GITHUB_REF_NAME" "$RAW_BIN" "${ARCHIVE_NAME}.tgz" \
+            --verify-tag \
             --title "Release $GITHUB_REF_NAME" \
             --generate-notes
