@@ -46,13 +46,13 @@ jobs:
         uses: Swatinem/rust-cache@v2
 
       - name: Cargo Check
-        run: cargo check --verbose
+        run: cargo check --locked --verbose
 
       - name: Cargo Clippy
-        run: cargo clippy --all-targets -- -D warnings
+        run: cargo clippy --locked --all-targets -- -D warnings
 
       - name: Check Formatting
         run: cargo fmt --check
 
       - name: Cargo Test
-        run: cargo test --verbose
+        run: cargo test --locked --verbose

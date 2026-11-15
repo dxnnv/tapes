@@ -35,7 +35,7 @@ jobs:
         uses: dtolnay/rust-toolchain@stable
 
       - name: Build (Release Mode)
-        run: cargo build --release --verbose
+        run: cargo build --locked --release --verbose
 
       - name: Package and Release
         env:
