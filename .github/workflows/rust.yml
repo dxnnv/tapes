@@ -31,6 +31,9 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y mold clang sccache
 
+      - name: Set up Rust toolchain
+        uses: dtolnay/rust-toolchain@stable
+
       - name: Build (Release Mode)
         run: cargo build --release --verbose
 
