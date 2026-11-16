@@ -54,9 +54,6 @@ jobs:
       - name: Cache Cargo dependencies
         uses: Swatinem/rust-cache@v2
 
-      - name: Cargo Check
-        run: cargo check --locked --verbose
-
       - name: Cargo Clippy
         run: cargo clippy --locked --all-targets -- -D warnings
 
