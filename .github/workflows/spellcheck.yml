@@ -14,6 +14,8 @@ jobs:
   spellcheck:
     name: SpellCheck
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     continue-on-error: true
 
     steps:
