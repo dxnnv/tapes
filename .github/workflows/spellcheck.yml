@@ -14,6 +14,7 @@ jobs:
   spellcheck:
     name: SpellCheck
     runs-on: ubuntu-latest
+    timeout-minutes: 5
     permissions:
       contents: read
     continue-on-error: true
