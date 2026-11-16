@@ -1,4 +1,4 @@
-name: Rust Build and Release
+name: Release
 
 on:
   push:
@@ -43,7 +43,7 @@ jobs:
       - name: Build (Release Mode)
         run: cargo build --locked --release --verbose
 
-      - name: Package and Release
+      - name: Package and publish release
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
