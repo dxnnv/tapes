@@ -4,7 +4,6 @@ version = "0.1.10-beta"
 edition = "2024"
 description = "Atomic dotfiles switcher for Linux and Ricing."
 readme = "README.md"
-homepage = "https://github.com/futurekismo-oss/tapes"
 repository = "https://github.com/futurekismo-oss/tapes"
 license = "MIT"
 exclude = [
