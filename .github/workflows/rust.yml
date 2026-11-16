@@ -8,6 +8,7 @@ on:
 env:
   CARGO_TERM_COLOR: always
   CARGO_TARGET_X86_64_UNKNOWN_LINUX_GNU_RUSTFLAGS: "-C link-arg=-fuse-ld=mold"
+  RUSTC_WRAPPER: ""
 
 jobs:
   build:
@@ -27,13 +28,16 @@ jobs:
           (grep -rlZ "PLACEHOLDER_VERSION" . --exclude-dir=.git --exclude-dir=target || test "$?" -eq 1) |
             xargs -0 -r sed -i "s:PLACEHOLDER_VERSION:$TAG_VERSION:g"
 
-      - name: Install build tools (mold, sccache)
+      - name: Install build dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y mold clang sccache
+          sudo apt-get install -y mold clang
 
       - name: Set up Rust toolchain
         uses: dtolnay/rust-toolchain@stable
+
+      - name: Cache Cargo dependencies
+        uses: Swatinem/rust-cache@v2
 
       - name: Build (Release Mode)
         run: cargo build --locked --release --verbose
